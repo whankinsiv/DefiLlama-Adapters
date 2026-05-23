@@ -16,6 +16,7 @@ const { util: {
   humanizeNumber: { humanizeNumber },
 } } = require("@defillama/sdk");
 const { util } = require("@defillama/sdk");
+const { runInPromisePool } = require('@defillama/sdk/build/util')
 const sdk = require("@defillama/sdk");
 const whitelistedExportKeys = require('./projects/helper/whitelistedExportKeys.json')
 const chainList = require('./projects/helper/chains.json')
@@ -230,7 +231,7 @@ function validateHallmarks(hallmark) {
     })
   }).filter(p => p !== undefined && Array.isArray(p)).flat().filter(p => p !== undefined)
 
-  await util.runInPromisePool({
+  await runInPromisePool({
     items: tvlPromises,
     concurrency: 5,
     processor: async (p) => p(),
